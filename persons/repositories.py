@@ -22,13 +22,13 @@ class PersonRepository(PersonRepositoryInterface):
 
         """
 
-        product = Person.objects.create(
+        person = Person.objects.create(
             first_name=new_person_dto.first_name,
             last_name=new_person_dto.last_name,
             email=new_person_dto.email,
         )
 
-        return self._person_to_dto(product)
+        return self._person_to_dto(person)
 
     def get_person_by_id(self, person_id: int) -> PersonDTO:
         """
@@ -49,13 +49,13 @@ class PersonRepository(PersonRepositoryInterface):
             return self._person_to_dto(person)
         raise InstanceDoesNotExistError(f"Person with id {person_id} not found")
 
-    def update_person(self, person_id: int, person_dto: PersonDTO) -> PersonDTO:
+    def update_person(self, person_id: int, person_dto: NewPersonDTO) -> PersonDTO:
         """
         Update person information
 
         Args:
             person_id (int): The unique identifier of the person.
-            person_dto (PersonDTO): The data model object representing data of a person.
+            person_dto (NewPersonDTO): The data model object representing data of a person.
 
         Returns:
             PersonDTO - A data transfer object containing the person information.
@@ -100,7 +100,7 @@ class PersonRepository(PersonRepositoryInterface):
 
     def get_persons(self) -> list[PersonDTO]:
         """
-        Retrieve a list of persons filtered by the provided parameters.
+        Retrieve a list of persons.
 
         Returns:
             list(PersonDTO) - A list of data transfer objects containing information about persons.

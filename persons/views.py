@@ -6,7 +6,7 @@ from drf_spectacular.utils import extend_schema
 from core.containers import ServiceContainer
 from core.exceptions import InstanceDoesNotExistError
 from core.responses import ResponseWithErrorSerializer, ValidationErrorResponseSerializer
-from .dto import NewPersonDTO, PersonDTO
+from .dto import NewPersonDTO
 from .serializers import PersonCreateSerializer, PersonSerializer
 
 

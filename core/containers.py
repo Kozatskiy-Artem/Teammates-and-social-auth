@@ -2,6 +2,8 @@ from dependency_injector import containers, providers
 
 from persons.repositories import PersonRepository
 from persons.services import PersonService
+from teams.repositories import TeamRepository
+from teams.services import TeamService
 
 
 class RepositoryContainer(containers.DeclarativeContainer):
@@ -11,6 +13,7 @@ class RepositoryContainer(containers.DeclarativeContainer):
     """
 
     person_repository = providers.Factory(PersonRepository)
+    team_repository = providers.Factory(TeamRepository)
 
 
 class ServiceContainer(containers.DeclarativeContainer):
@@ -20,3 +23,4 @@ class ServiceContainer(containers.DeclarativeContainer):
     """
 
     person_service = providers.Factory(PersonService, person_repository=RepositoryContainer.person_repository)
+    team_service = providers.Factory(TeamService, team_repository=RepositoryContainer.team_repository)
