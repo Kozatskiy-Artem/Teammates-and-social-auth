@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from teams.serializers import TeamSerializer
+
 
 class PersonCreateSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=50)
@@ -12,3 +14,4 @@ class PersonSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     email = serializers.EmailField()
+    team = TeamSerializer(read_only=True)

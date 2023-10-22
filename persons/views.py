@@ -1,7 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular.types import OpenApiTypes
 
 from core.containers import ServiceContainer
 from core.exceptions import InstanceDoesNotExistError
@@ -48,6 +49,14 @@ class ApiPersonListView(APIView):
 
     @extend_schema(
         summary="Retrieve information about all persons",
+        parameters=[
+            OpenApiParameter(
+                name="is_without_team",
+                type=OpenApiTypes.BOOL,
+                location=OpenApiParameter.QUERY,
+                description="Filter products by 'offer of the month' status (True/False).",
+            ),
+        ],
         responses={
             200: PersonSerializer(many=True),
             404: ResponseWithErrorSerializer,
@@ -57,10 +66,17 @@ class ApiPersonListView(APIView):
     def get(self, request):
         """Handle GET request to retrieve all persons data."""
 
+        is_without_team = request.query_params.get('is_without_team', None)
+
+        if is_without_team and is_without_team.capitalize() == "True":
+            is_without_team = True
+        else:
+            is_without_team = False
+
         person_service = ServiceContainer.person_service()
 
         try:
-            persons_dto = person_service.get_persons()
+            persons_dto = person_service.get_persons(is_without_team)
         except InstanceDoesNotExistError as exception:
             return Response({"error": str(exception)}, status=status.HTTP_404_NOT_FOUND)
 
@@ -146,6 +162,35 @@ class ApiPersonDetailView(APIView):
 
         try:
             person_dto = person_service.update_person(id, update_person_dto)
+        except InstanceDoesNotExistError as exception:
+            return Response({"error": str(exception)}, status=status.HTTP_404_NOT_FOUND)
+
+        person = PersonSerializer(person_dto)
+
+        return Response(
+            data=person.data,
+            status=status.HTTP_200_OK,
+        )
+
+
+class ApiLeaveTeamView(APIView):
+    """The ApiLeaveTeamView class defines API endpoints for leaving a team."""
+
+    @extend_schema(
+        summary="Leave team",
+        responses={
+            200: PersonSerializer,
+            404: ResponseWithErrorSerializer,
+        },
+        tags=["Persons"],
+    )
+    def patch(self, request, id):
+        """Handle PATCH request for a person to leave the team."""
+
+        person_service = ServiceContainer.person_service()
+
+        try:
+            person_dto = person_service.leave_team(id)
         except InstanceDoesNotExistError as exception:
             return Response({"error": str(exception)}, status=status.HTTP_404_NOT_FOUND)
 

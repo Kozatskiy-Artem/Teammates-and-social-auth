@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
-from .dto import NewTeamDTO, TeamDTO
+from .dto import NewTeamDTO, TeamDTO, MemberIdDTO
 
 
 class TeamRepositoryInterface(metaclass=ABCMeta):
@@ -90,5 +90,40 @@ class TeamRepositoryInterface(metaclass=ABCMeta):
 
         Raises:
             InstanceDoesNotExistError: If no teams is found.
+        """
+        pass
+
+    @abstractmethod
+    def add_member(self, team_id: int, new_member_dto: MemberIdDTO) -> TeamDTO:
+        """
+        Adds a new member to the specified team.
+
+        Args:
+            team_id (int): The ID of the team to which the member will be added.
+            new_member_dto (MemberIdDTO): Data transfer object representing the new member.
+
+        Returns:
+            TeamDTO - An instance of the data transfer object representing the updated team.
+
+        Raises:
+            InstanceDoesNotExistError: If the team with the specified ID or the member with the provided ID does not exist.
+        """
+        pass
+
+    @abstractmethod
+    def remove_member(self, team_id: int, member_dto: MemberIdDTO) -> TeamDTO:
+        """
+        Adds a new member to the specified team.
+
+        Args:
+            team_id (int): The ID of the team to which the member will be added.
+            member_dto (MemberIdDTO): Data transfer object representing the member id.
+
+        Returns:
+            TeamDTO - An instance of the data transfer object representing the updated team.
+
+        Raises:
+            InstanceDoesNotExistError: If the team with the specified ID
+             or the member with the provided ID does not exist.
         """
         pass

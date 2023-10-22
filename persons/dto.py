@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from teams.dto import TeamDTO
+
 
 @dataclass(frozen=True)
 class NewPersonDTO:
@@ -14,3 +16,4 @@ class PersonDTO:
     first_name: str
     last_name: str
     email: str
+    team: TeamDTO

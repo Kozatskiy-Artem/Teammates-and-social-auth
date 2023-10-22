@@ -81,14 +81,30 @@ class PersonRepositoryInterface(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def get_persons(self) -> list[PersonDTO]:
+    def get_persons(self, is_without_team: bool = False) -> list[PersonDTO]:
         """
-        Retrieve a list of persons.
+        Retrieve a list of persons, optionally filtered by the absence of a team.
 
         Returns:
             list(PersonDTO) - A list of data transfer objects containing information about persons.
 
         Raises:
             InstanceDoesNotExistError: If no persons is found.
+        """
+        pass
+
+    @abstractmethod
+    def leave_team(self, person_id: id) -> PersonDTO:
+        """
+        Remove a person from their team.
+
+        Args:
+            person_id (int): The ID of the person.
+
+        Returns:
+            PersonDTO - The data transfer object representing the updated person.
+
+        Raises:
+            InstanceDoesNotExistError: If the person with the specified ID does not exist.
         """
         pass
