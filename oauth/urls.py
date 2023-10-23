@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import GoogleAuthView
+from .views import OAuthView
 
 urlpatterns = [
-    path("google/", GoogleAuthView.as_view(), name="google_oauth"),
+    path("<str:provider>/", OAuthView.as_view(), name="oauth2"),
 ]

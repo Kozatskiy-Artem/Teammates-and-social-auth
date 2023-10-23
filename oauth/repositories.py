@@ -5,10 +5,10 @@ from django.db import transaction
 from django.utils.crypto import get_random_string
 
 from .dto import OAuthResponseDTO
-from .interfaces import GoogleAuthRepositoryInterfaces
+from .interfaces import OAuthRepositoryInterfaces
 
 
-class GoogleAuthRepository(GoogleAuthRepositoryInterfaces):
+class GoogleAuthRepository(OAuthRepositoryInterfaces):
 
     def get_or_create_oauth_user(self, user_dto: OAuthResponseDTO):
         """

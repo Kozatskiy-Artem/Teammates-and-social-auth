@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractmethod
 from .dto import OAuthDTO, OAuthResponseDTO
 
 
-class GoogleAuthRepositoryInterfaces(metaclass=ABCMeta):
+class OAuthRepositoryInterfaces(metaclass=ABCMeta):
     @abstractmethod
     def get_or_create_oauth_user(self, user_dto: OAuthResponseDTO):
         """
@@ -18,21 +18,19 @@ class GoogleAuthRepositoryInterfaces(metaclass=ABCMeta):
         pass
 
 
-class GoogleProviderInterfaces(metaclass=ABCMeta):
+class ProviderInterface(metaclass=ABCMeta):
     @abstractmethod
-    def get_user_info(self, auth_dto: OAuthDTO) -> OAuthResponseDTO:
+    def get_user_info(self) -> OAuthResponseDTO:
         """
         Method accepts get_access_token, makes a request to google and returns user_info
 
-        Args:
-            auth_dto: (OAuthDTO)
         Returns:
               OAuthResponseDTO: email and id(to create password) from Google
         """
         pass
 
     @abstractmethod
-    def get_access_token(self, auth_dto: OAuthDTO):
+    def get_access_token(self, auth_dto: OAuthDTO) -> str:
         """
         Method accepts authorization code from Google, makes a request to google and returns access token
 

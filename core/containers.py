@@ -6,7 +6,7 @@ from teams.repositories import TeamRepository
 from teams.services import TeamService
 from oauth.repositories import GoogleAuthRepository
 from oauth.services import GoogleAuthService
-from oauth.provider import GoogleOAuth2Provider
+from oauth.provider import OAuth2ProviderFactory
 
 
 class RepositoryContainer(containers.DeclarativeContainer):
@@ -31,5 +31,5 @@ class ServiceContainer(containers.DeclarativeContainer):
     oauth_service = providers.Factory(
         GoogleAuthService,
         oauth_repository=RepositoryContainer.oauth_repository,
-        oauth_provider=providers.Factory(GoogleOAuth2Provider),
+        oauth_provider_factory=providers.Factory(OAuth2ProviderFactory),
     )
