@@ -4,6 +4,9 @@ from persons.repositories import PersonRepository
 from persons.services import PersonService
 from teams.repositories import TeamRepository
 from teams.services import TeamService
+from oauth.repositories import GoogleAuthRepository
+from oauth.services import GoogleAuthService
+from oauth.provider import GoogleOAuth2Provider
 
 
 class RepositoryContainer(containers.DeclarativeContainer):
@@ -14,6 +17,7 @@ class RepositoryContainer(containers.DeclarativeContainer):
 
     person_repository = providers.Factory(PersonRepository)
     team_repository = providers.Factory(TeamRepository)
+    oauth_repository = providers.Factory(GoogleAuthRepository)
 
 
 class ServiceContainer(containers.DeclarativeContainer):
@@ -24,3 +28,8 @@ class ServiceContainer(containers.DeclarativeContainer):
 
     person_service = providers.Factory(PersonService, person_repository=RepositoryContainer.person_repository)
     team_service = providers.Factory(TeamService, team_repository=RepositoryContainer.team_repository)
+    oauth_service = providers.Factory(
+        GoogleAuthService,
+        oauth_repository=RepositoryContainer.oauth_repository,
+        oauth_provider=providers.Factory(GoogleOAuth2Provider),
+    )
