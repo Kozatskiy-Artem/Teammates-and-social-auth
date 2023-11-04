@@ -38,7 +38,7 @@ class PersonRepositoryTestCase(TestCase):
 
     def test_person_does_not_exists(self):
         with self.assertRaises(InstanceDoesNotExistError):
-            retrieved_person = self.repository.get_person_by_id(101)
+            self.repository.get_person_by_id(101)
 
     def test_get_persons(self):
         Person.objects.create(first_name="Second", last_name="Person2", email="person2@gmail.com")

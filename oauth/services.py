@@ -1,7 +1,7 @@
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .dto import OAuthDTO, OAuthLoginResponseDTO
-from .interfaces import ProviderInterface, OAuthRepositoryInterfaces
+from .interfaces import OAuthRepositoryInterfaces
 
 
 class GoogleAuthService:
